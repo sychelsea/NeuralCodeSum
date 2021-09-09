@@ -2,3 +2,7 @@
 *.pyc
 */__pycache__/*
 c2nl/*/__pycache__/*
+
+c2nl.egg-info/
+data/java/example/
+tmp/

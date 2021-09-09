@@ -7,8 +7,10 @@ function make_dir () {
 }
 
 SRC_DIR=..
-DATA_DIR=${SRC_DIR}/data
-MODEL_DIR=${SRC_DIR}/tmp
+#DATA_DIR=${SRC_DIR}/data
+#MODEL_DIR=${SRC_DIR}/tmp
+DATA_DIR=~/study/NeuralCodeSum/data
+MODEL_DIR=/data/share/NeuralCodeSum/models
 
 make_dir $MODEL_DIR
 

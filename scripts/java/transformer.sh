@@ -7,7 +7,8 @@ function make_dir () {
 }
 
 SRC_DIR=../..
-DATA_DIR=${SRC_DIR}/data
+#DATA_DIR=${SRC_DIR}/data
+DATA_DIR=/data/share/NeuralCodeSum/data
 MODEL_DIR=${SRC_DIR}/tmp
 
 make_dir $MODEL_DIR
@@ -130,6 +131,6 @@ PYTHONPATH=$SRC_DIR CUDA_VISIBLE_DEVICES=$RGPU python -W ignore ${SRC_DIR}/main/
 
 }
 
-train $1 $2
+#train $1 $2
 test $1 $2
-beam_search $1 $2
+#beam_search $1 $2
