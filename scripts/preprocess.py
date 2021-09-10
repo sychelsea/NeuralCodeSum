@@ -164,29 +164,39 @@ class Preprocess:
     def camel_case_split(self, x):
         ret = []
         for token in x:
-            ret.extend(re.findall(r'[A-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))', token))
-        return ret
+            subtokens = re.findall(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)', token)
+            if len(subtokens) == 0: 
+                ret.append(token)
+                continue
+            for subtoken in subtokens:
+                prefix, suffix = token.split(subtoken, 1)
+                if len(prefix) > 0: ret.append(prefix)
+                ret.append(subtoken)
+                token = suffix
 
+        return ret
+             
     def snake_case_split(self, x):
         ret = []
         for token in x:
-            ret.append(token.split('_'))
+            ret.extend(token.split('_'))
         return ret
 
     def clean(self, x):
         x = re.sub(r"[‘…—−–]", " ", x)
         x = re.sub(r"[?，`“”’™•°]", "", x)
-
+        
         if self.mode == "anno":
             x = re.sub(r"[,:;]", "", x)
             x = re.sub(r"([\+\-\*/=(){}%^&\.])", r" \1 ", x)
             x = re.sub(r"\.+$", r"", x)
 
         if self.mode == "code":
-            # x = re.sub(r'([\+\-\*/,:;=(){}%^&])', r' \1 ', x)
-            x = " ".join(self.camel_case_split(self.tokenize_python(x)))
+            #x = re.sub(r'([\+\-\*/,:;=(){}%^&])', r' \1 ', x)
+            x = " ".join(self.tokenize_python(x))
+                    
+        x = " ".join(self.camel_case_split(self.snake_case_split(self.tokenize(x))))
 
-        #x = self.camel_case_split(self.snake_case_split(x))
         x = re.sub(r"[ ]+", " ", x)
         x = x.strip()
         return x
